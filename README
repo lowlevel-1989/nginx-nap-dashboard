@@ -117,6 +117,13 @@ $ sudo systemctl start  grafana-server
 $ sudo systemctl status grafana-server
 
 puerto: 3000
+
+1.- Setup Grafana source - Elastic WAF Index.
+$ curl -d "@grafana/DS-waf-index.json" -H 'Content-Type: application/json' -u 'admin:admin' -X POST 'http://localhost:3000/api/datasources/'
+
+2.- Setup Grafana source - Elastic WAF Decoded Index.
+$ curl -d "@grafana/DS-waf-decoded-index.json" -H 'Content-Type: application/json' -u 'admin:admin' -X POST 'http://localhost:3000/api/datasources/'
+
 agragar dashboard
         - NGINX NAP Main Dashboard              -> 15675 -> WAF-Logs
         - NGINX NAP Support-ID Dashboard        -> 15676 -> WAF-Logs , WAF-Decoded
