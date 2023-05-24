@@ -1,0 +1,124 @@
+#REF: https://github.com/f5devcentral/nap-policy-management/
+
+NAP Dashboard es donde los usuarios pueden ir y revisar todas las
+violaciones que han generado las instancias de NAP.
+
+La solución usa Logstash para consumir los registros de las instancias
+de NAP, los transforma y finalmente los almacena en Elasticsearch.
+
+Grafana se utiliza como plataforma de análisis que se conecta a la fuente
+de datos (Elasticsearch) y proporciona paneles interactivos.
+
+# REF: https://cs.nginx.com/repo_setup
+
+### instalar nginx plus y app protect
+
+$ sudo mkdir -p /etc/ssl/nginx
+$ sudo cp nginx-repo.key nginx-repo.crt /etc/ssl/nginx
+
+$ sudo yum install ca-certificates
+$ sudo yum install epel-release
+
+$ sudo wget -P /etc/yum.repos.d https://cs.nginx.com/static/files/nginx-plus-7.4.repo
+$ sudo wget -P /etc/yum.repos.d https://cs.nginx.com/static/files/app-protect-7.repo
+
+$ sudo yum install nginx-plus
+$ sudo yum install nginx-plus app-protect app-protect-attack-signatures
+
+$ sudo systemctl status nginx
+$ sudo systemctl start  nginx
+$ sudo systemctl status nginx
+
+$ sudo systemctl status nginx-app-protect
+$ sudo systemctl start  nginx-app-protect
+$ sudo systemctl status nginx-app-protect
+
+### instalar Elasticsearch
+
+$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.17.10-x86_64.rpm
+$ sudo yum install elasticsearch-7.17.10-x86_64.rpm
+
+$ sudo systemctl status elasticsearch
+$ sudo systemctl start elasticsearch
+$ sudo systemctl status elasticsearch
+
+1.- Create signature index on Elasticsearch
+
+$ curl -X PUT 'http://localhost:9200/signatures/'
+
+Expected Response: {"acknowledged":true,"shards_acknowledged":true,"index":"signatures"}
+
+2.- Create index mapping for signature index
+
+$ curl -d "@elastic/signature-mapping.json" -H 'Content-Type: application/json' -X PUT 'http://localhost:9200/signatures/_mapping/'
+
+Expected Response: {"acknowledged":true}
+
+3.- Populate the signature index with the data extracted from NGINX signature report tool.
+
+$ /opt/app_protect/bin/get-signatures -o signatures-report.json
+
+$ python3 signatures/upload-signatures.py signatures/signatures-report.json localhost
+
+If successful it will take around 1 min to push all signatures to elastic.
+Expect to see multiple responses of the following:
+{"_index":"signatures","_type":"_doc","_id":"200000001","_version":1,"result":"created","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":7553,"_primary_term":1}
+
+4.- Create template for NAP indexes Index Mapping
+
+$ curl -d "@elastic/template-mapping.json" -H 'Content-Type: application/json' -X PUT 'http://localhost:9200/_template/waf_template?include_type_name'
+
+Expected Response: {"acknowledged":true}
+
+5.- Create enrich policy for the NAP/Signatures Indices.
+
+$ curl -d "@elastic/enrich-policy.json" -H 'Content-Type: application/json' -X PUT 'http://localhost:9200/_enrich/policy/signatures-policy'
+
+Expected Response: {"acknowledged":true}
+
+6.- Deploy enrich policy.
+
+$ curl -X POST 'http://localhost:9200/_enrich/policy/signatures-policy/_execute'
+
+Expected Response: {"status":{"phase":"COMPLETE"}}
+
+7.- Create Ingest Pipeline.
+
+curl -d "@elastic/sig-lookup.json" -H 'Content-Type: application/json' -X PUT 'http://localhost:9200/_ingest/pipeline/sig_lookup'
+
+Expected Response: {"acknowledged":true}
+
+### instalar ruby (requerido por Logstash)
+
+REF: https://rvm.io/rvm/install
+REF: https://rvm.io/rvm/security
+
+$ gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+$ curl -sSL https://get.rvm.io | bash -s stable --ruby
+
+$ source /home/lowlevel/.rvm/scripts/rvm
+
+### instalar Logstash
+
+REF: https://www.elastic.co/guide/en/logstash/7.17/installing-logstash.html
+
+$ copiar configuración en /etc/logstash/conf.d
+
+$ sudo systemctl status logstash
+$ sudo systemctl start  logstash
+$ sudo systemctl status logstash
+
+### instalar grafana
+
+REF: https://grafana.com/docs/grafana/latest/setup-grafana/installation/
+
+$ sudo systemctl status grafana-server
+$ sudo systemctl start  grafana-server
+$ sudo systemctl status grafana-server
+
+puerto: 3000
+agragar dashboard
+        - NGINX NAP Main Dashboard              -> 15675 -> WAF-Logs
+        - NGINX NAP Support-ID Dashboard        -> 15676 -> WAF-Logs , WAF-Decoded
+        - NGINX NAP Attack Signatures Dashboard -> 15677 -> WAF-Decoded
+        - NGINX NAP BOT Dashboard               -> 15678 -> WAF-Logs
