@@ -42,6 +42,7 @@ REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices.html
 REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices-create-index.html
 REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices-put-mapping.html
 REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/docs-index_.html
+REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices-templates-v1.html
 REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/enrich-apis.html
 REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ingest.html
 REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/rest-apis.html
