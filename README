@@ -1,4 +1,4 @@
-# REF: https://github.com/f5devcentral/nap-policy-management/
+REF: https://github.com/f5devcentral/nap-policy-management/
 
 NAP Dashboard es donde los usuarios pueden ir y revisar todas las
 violaciones que han generado las instancias de NAP.
@@ -9,7 +9,7 @@ de NAP, los transforma y finalmente los almacena en Elasticsearch.
 Grafana se utiliza como plataforma de análisis que se conecta a la fuente
 de datos (Elasticsearch) y proporciona paneles interactivos.
 
-# REF: https://cs.nginx.com/repo_setup
+REF: https://cs.nginx.com/repo_setup
 
 ### instalar nginx plus y app protect
 
@@ -38,10 +38,10 @@ $ sudo systemctl status nginx-app-protect
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.17.10-x86_64.rpm
 $ sudo yum install elasticsearch-7.17.10-x86_64.rpm
 
-# REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices.html
-# REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/enrich-apis.html
-# REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ingest.html
-# REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/rest-apis.html
+REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices.html
+REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/enrich-apis.html
+REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ingest.html
+REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/rest-apis.html
 
 $ sudo systemctl status elasticsearch
 $ sudo systemctl start elasticsearch
@@ -120,6 +120,8 @@ REF: https://grafana.com/docs/grafana/latest/setup-grafana/installation/
 $ sudo systemctl status grafana-server
 $ sudo systemctl start  grafana-server
 $ sudo systemctl status grafana-server
+
+REF: https://grafana.com/docs/grafana/latest/developers/http_api/data_source/
 
 puerto: 3000
 
