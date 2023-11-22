@@ -110,6 +110,7 @@ $ source /home/lowlevel/.rvm/scripts/rvm
 ### instalar Logstash
 
 REF: https://www.elastic.co/guide/en/logstash/7.17/installing-logstash.html
+REF: https://www.elastic.co/guide/en/logstash/7.17/config-examples.html
 
 $ copiar configuración en /etc/logstash/conf.d
 
