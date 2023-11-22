@@ -38,6 +38,11 @@ $ sudo systemctl status nginx-app-protect
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.17.10-x86_64.rpm
 $ sudo yum install elasticsearch-7.17.10-x86_64.rpm
 
+# REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/indices.html
+# REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/enrich-apis.html
+# REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ingest.html
+# REF: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/rest-apis.html
+
 $ sudo systemctl status elasticsearch
 $ sudo systemctl start elasticsearch
 $ sudo systemctl status elasticsearch
