@@ -119,6 +119,13 @@ REF: https://www.jruby.org/2021/12/01/jruby-9-2-20-1.html
 REF: https://www.jruby.org/files/downloads/9.2.20.1/index.html
 REF: https://github.com/elastic/logstash/blob/7.17/.ruby-version
 
+
+### Validar JRuby e configurar JRUBY_HOME
+REF: https://docs.oracle.com/cd/E19226-01/820-7697/install/index.html
+~~~
+$ java -Djruby.native.verbose=true -jar jruby-complete.jar -rffi -e :ok
+~~~
+
 $ copiar configuración en /etc/logstash/conf.d
 
 $ sudo systemctl status logstash
