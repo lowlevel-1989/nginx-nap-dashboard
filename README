@@ -112,6 +112,13 @@ $ source /home/lowlevel/.rvm/scripts/rvm
 REF: https://www.elastic.co/guide/en/logstash/7.17/installing-logstash.html
 REF: https://www.elastic.co/guide/en/logstash/7.17/config-examples.html
 
+### Referencia de versiones
+
+REF: https://github.com/elastic/logstash/tree/7.17#prerequisites
+REF: https://www.jruby.org/2022/06/27/jruby-9-2-21-0.html
+REF: https://www.jruby.org/files/downloads/9.2.21.0/index.html
+REF: https://github.com/elastic/logstash/blob/7.17/.ruby-version
+
 $ copiar configuración en /etc/logstash/conf.d
 
 $ sudo systemctl status logstash
